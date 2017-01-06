@@ -23,12 +23,7 @@
 		        data['0000001'].price + '；' +
 		        data['1399001'].name + ': ' +
 		        data['1399001'].price;
-		}
-
-		function fail(code) {
-			var p = document.getElementsById('test-jsonp');
-			p.innerHTML = 'Error code: ' + code;
-
+		        
 			var request = new XMLHttpRequest();
 
 			request.onreadystatechange = function () {
@@ -43,6 +38,12 @@
 
 			request.open('GET', 'http://api.money.126.net/data/feed/0000001,1399001?callback=success');
 			request.send();
+		}
+
+		function fail(code) {
+			var p = document.getElementsById('test-jsonp');
+			p.innerHTML = 'Error code: ' + code;
+
 		}
 	</script>
 </body>
