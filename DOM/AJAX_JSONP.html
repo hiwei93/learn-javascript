@@ -12,6 +12,12 @@
 			var 
 				js = document.createElement('script');
 				head = document.getElementsByTagName('head')[0];
+				jsonp = document.getElementById('jsonp');
+			if(jsonp) {
+				var parent = jsonp.parentElement;
+				parent.removeChild(jsonp);
+			}
+			js.id = 'jsonp';
 			js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';
 			head.appendChild(js);
 		}
