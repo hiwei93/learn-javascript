@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>operate DOM</title>
+	<style>
+	button {
+		font-size: 15px;
+		height: 30px;
+		width: 60px;
+		border: 0px;
+		border-radius: 15px;
+		background-color: #2196f3; 
+	}
+
+	button:hover {
+		background-color: #197ac7;
+	}
+
+	button:active {
+		background-color: #10558c;
+		color: #fff;
+	}
+
+	ul li {
+		list-style-type: none;
+		margin-bottom: 10px;
+	}
+
+	tr,td{
+		border-left: 1px solid #9e9e9e;
+	}
+	</style>
+</head>
+<body>
+	<div id="content">
+		<button onclick="create()">添加</button>
+		<table id="parent">
+			<!--<tr>
+				<td class="id">1</td>
+				<td class="in"><input type="text"></td>
+				<td class="op">
+					<a href="#">删除</a>
+					<a href="#">在后面添加</a>
+				</td>
+			</tr>-->
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		function createTd(className) {
+			var td = document.createElement('td');
+			td.setAttribute('class', className);
+			switch(className){
+				case 'id':
+					td.style.width = '20px';
+					td.style.textAlign = 'center';
+					break;
+				case 'in':
+					var input = document.createElement('input');
+					input.setAttribute('type', 'text');
+					td.appendChild(input);
+					break;
+				case 'op':
+					var de = document.createElement('a');
+					de.setAttribute('href', 'javascript:;');
+					de.setAttribute('onclick', 'deleteRow(this)');
+					de.innerText = '删除';
+					var cr = document.createElement('a');
+					cr.setAttribute('href', 'javascript:;');
+					cr.setAttribute('onclick', 'insertRow(this)');
+					cr.innerText = '在后面添加';
+					td.appendChild(de);
+					td.appendChild(document.createTextNode(' '))
+					td.appendChild(cr);
+					break;
+			}
+			return td;
+		}
+
+		// 重新编号
+		function re_number(){
+			var table = document.getElementById('parent');
+			var childs = table.childNodes;
+			let temp = 0;
+			for (let i = 0; i < childs.length; i++) {
+				if(childs[i].nodeType === 1) {
+					childs[i].firstChild.innerText = i - temp + 1;
+				} else {
+					temp ++;
+				}
+			}
+		}
+		
+		function create(){
+			var table = document.getElementById('parent'); 
+			var tr = document.createElement('tr');
+			tr.appendChild(createTd('id'));
+			tr.appendChild(createTd('in'));
+			tr.appendChild(createTd('op'));
+			table.appendChild(tr);
+			re_number();
+		}
+
+		function deleteRow(obj){
+			var parent = obj.parentNode.parentNode.parentNode;
+			parent.removeChild(obj.parentNode.parentNode);
+			re_number();
+		}
+
+		function insertRow(obj){
+			var parent = obj.parentNode.parentNode.parentNode;
+			var node = obj.parentNode.parentNode.nextSibling;
+			var tr = document.createElement('tr');
+			tr.appendChild(createTd('id'));
+			tr.appendChild(createTd('in'));
+			tr.appendChild(createTd('op'));
+			parent.insertBefore(tr, node);
+			re_number();
+
+			// var childs = parent.childNodes;
+			// childs[3].childNodes[1].innerText = 'test';
+			// var childs_array = Array.prototype.slice.call(childs); // 将 NodeList 转换为数组
+			// console.log(childs_array);
+			// var childs_tr = childs_array.filter(function(node) {
+			// 	return node.nodeType === 1;
+			// });
+			// childs_tr
+			// console.log(childs_tr);
+		}
+
+	</script>
+</body>
+</html>

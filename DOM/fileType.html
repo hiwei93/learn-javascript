@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Check Filetype</title>
+</head>
+<body>
+	<form action="" enctype="multipart/form-data" method="post"">
+		<input type="file" id="file-upload"><br>
+		<button onclick="checkFileType()">upload</button>
+		<p id="result"></p>
+	</form>
+
+	<script type="text/javascript">
+		// 检测文件格式
+		function checkFileType() {
+			var f = document.getElementById('file-upload');
+			var filename = f.value;
+			var result = document.getElementById('result');
+			var reg = /.\.(png|jpg|gif)$/i;;
+
+			console.log(`filename = ${filename}`);
+			// if(filename && ((filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif')))) {
+			if(filename && reg.test(filename)) {
+				result.style.color = '#2196f3';
+				result.innerText = 'Upload seccess!';
+				alert('Upload seccess!');
+				return true;
+			} else {
+				result.style.color = '#f44336';
+				result.innerText = 'Can only upload image file!';
+				alert('Can only upload image file!');
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
