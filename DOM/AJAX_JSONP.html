@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>JSONP跨域</title>
 </head>
+
 <body>
 	<p id="test-jsonp">当前价格：</p>
 	<button onclick="getPrice()">刷新</button>
-	<script type="text/javascript">
-		function getPrice(){
-			var 
-				js = document.createElement('script');
-				head = document.getElementsByTagName('head')[0];
-				jsonp = document.getElementById('jsonp');
-			if(jsonp) {
-				var parent = jsonp.parentElement;
-				parent.removeChild(jsonp);
-			}
-			js.id = 'jsonp';
-			js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';
-			head.appendChild(js);
+<script type="text/javascript">
+	function getPrice() {
+		var
+			js = document.createElement('script');
+		head = document.getElementsByTagName('head')[0];
+		jsonp = document.getElementById('jsonp');
+		if (jsonp) {
+			var parent = jsonp.parentElement;
+			parent.removeChild(jsonp);
 		}
+		js.id = 'jsonp';
+		js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';
+		head.appendChild(js);
+	}
 
-		function refreshPrice(data) {
-			var p = document.getElementById('test-jsonp');
-			p.innerHTML = '当前价格：' +
-				data['0000001'].name +': ' + 
-		        data['0000001'].price + '；' +
-		        data['1399001'].name + ': ' +
-		        data['1399001'].price;
-		        
-			var request = new XMLHttpRequest();
+	function refreshPrice(data) {
+		var p = document.getElementById('test-jsonp');
+		p.innerHTML = '当前价格：' +
+			data['0000001'].name + ': ' +
+			data['0000001'].price + '；' +
+			data['1399001'].name + ': ' +
+			data['1399001'].price;
 
-			request.onreadystatechange = function () {
-				if(request.readyState === 4) {
-					if(request.status === 200){
-						return refreshPrice(request.responseText);
-					}else{
-						return fail(request.status);
-					}
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function () {
+			if (request.readyState === 4) {
+				if (request.status === 200) {
+					return refreshPrice(request.responseText);
+				} else {
+					return fail(request.status);
 				}
 			}
-
-			request.open('GET', 'http://api.money.126.net/data/feed/0000001,1399001?callback=success');
-			request.send();
 		}
 
-		function fail(code) {
-			var p = document.getElementsById('test-jsonp');
-			p.innerHTML = 'Error code: ' + code;
+		request.open('GET', 'http://api.money.126.net/data/feed/0000001,1399001?callback=success');
+		request.send();
+	}
 
-		}
-	</script>
+	function fail(code) {
+		var p = document.getElementsById('test-jsonp');
+		p.innerHTML = 'Error code: ' + code;
+
+	}
+</script>
 </body>
+
 </html>
