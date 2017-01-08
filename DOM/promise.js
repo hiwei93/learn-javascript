@@ -55,7 +55,7 @@ p.then(multiply)
 /**
  * Promise 并行异步操作
  * Promise.all()
- */
+ *
 var p1 = new Promise((resolve, reject) => {
     setTimeout(resolve, 500, 'P1');
 });
@@ -71,3 +71,17 @@ Promise.all([p1, p2]).then(function (result) {
 /**
  * Promise.race() 异步容错
  */
+var p3 = new Promise(function(resolve, reject) { 
+    setTimeout(resolve, 100, "three");
+});
+var p4 = new Promise(function(resolve, reject) { 
+    setTimeout(reject, 500, "four"); 
+});
+
+Promise.race([p3, p4]).then(function(value) {
+  console.log(value); // "three"
+  // p3 更快，所以它完成了              
+}, function(reason) {
+  // 未被调用
+  console.log(reason);
+});
