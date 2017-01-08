@@ -24,7 +24,7 @@ new Promise(function (resolve, reject) {
 /**
  * Promise 串行异步操作
  * Promise.then().then().then()....
- */
+ *
 function multiply(input) {
     return new Promise(function (resolve, reject) {
         console.log('calculating ' + input + ' X ' + input + '...');
@@ -56,6 +56,17 @@ p.then(multiply)
  * Promise 并行异步操作
  * Promise.all()
  */
+var p1 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 500, 'P1');
+});
+
+var p2 = new Promise((resolve, reject) => {
+    setTimeout(resolve, 600, 'P2');
+});
+
+Promise.all([p1, p2]).then(function (result) {
+    console.log(result);// 获得一个Array: ['P1', 'P2']
+});
 
 /**
  * Promise.race() 异步容错
